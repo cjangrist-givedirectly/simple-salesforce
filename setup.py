@@ -35,6 +35,7 @@ setup(
        'retrying',
        'logdecorator',
        'smart_open[s3]',
+       'urllib3',
        ],
     tests_require=[
         'pytest',
