@@ -201,7 +201,7 @@ def _count_csv(
         filename: Optional[str] = None,
         data: Optional[str] = None,
         skip_header: bool = False,
-        line_ending: LineEnding = LineEnding.LF
+        line_ending: LineEnding = LineEnding.CRLF
         ) -> int:
     """Count the number of records in a CSV file."""
     if filename:
@@ -225,8 +225,8 @@ def _count_csv(
 
 def _convert_dict_to_csv(
         data: Optional[List[Dict[str, str]]],
-        column_delimiter: Union[ColumnDelimiter, str] = ColumnDelimiter.COMMA,
-        line_ending: Union[LineEnding, str] = LineEnding.LF
+        column_delimiter: Union[ColumnDelimiter, str] = ColumnDelimiter.PIPE,
+        line_ending: Union[LineEnding, str] = LineEnding.CRLF
         ) -> Optional[str]:
     """Converts list of dicts to CSV like object."""
     if not data:
@@ -360,8 +360,8 @@ class _Bulk2Client:
             self,
             operation: Operation,
             query: Optional[str] = None,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             external_id_field: Optional[str] = None,
             ) -> Any:
         """Create job
@@ -783,8 +783,8 @@ class SFBulk2Type:
             self,
             operation: Operation,
             data: Union[str, Tuple[int, str]],
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             external_id_field: Optional[str] = None,
             wait: int = 5,
             ) -> Dict[str, int]:
@@ -853,8 +853,8 @@ class SFBulk2Type:
             csv_file: Optional[str] = None,
             records: Optional[str] = None,
             batch_size: Optional[int] = None,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             external_id_field: Optional[str] = None,
             concurrency: int = 1,
             wait: int = 5,
@@ -935,8 +935,8 @@ class SFBulk2Type:
             csv_file: Optional[str] = None,
             records: Optional[List[Dict[str, str]]] = None,
             batch_size: Optional[int] = None,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             external_id_field: Optional[str] = None,
             wait: int = 5,
             ) -> List[Dict[str, int]]:
@@ -948,11 +948,11 @@ class SFBulk2Type:
                 records,
                 column_delimiter=_delimiter_char.get(
                     column_delimiter,
-                    ColumnDelimiter.COMMA
+                    ColumnDelimiter.PIPE
                     ),
                 line_ending=_line_ending_char.get(
                     line_ending,
-                    LineEnding.LF
+                    LineEnding.CRLF
                     )
                 ),
             batch_size=batch_size,
@@ -968,8 +968,8 @@ class SFBulk2Type:
             records: Optional[List[Dict[str, str]]] = None,
             batch_size: Optional[int] = None,
             concurrency: int = 1,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> List[Dict[str, int]]:
         """insert records"""
@@ -980,11 +980,11 @@ class SFBulk2Type:
                 records,
                 column_delimiter=_delimiter_char.get(
                     column_delimiter,
-                    ColumnDelimiter.COMMA
+                    ColumnDelimiter.PIPE
                     ),
                 line_ending=_line_ending_char.get(
                     line_ending,
-                    LineEnding.LF
+                    LineEnding.CRLF
                     )
                 ),
             batch_size=batch_size,
@@ -1000,8 +1000,8 @@ class SFBulk2Type:
             records: Optional[List[Dict[str, str]]] = None,
             external_id_field: str = 'Id',
             batch_size: Optional[int] = None,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> List[Dict[str, int]]:
         """upsert records based on a unique identifier"""
@@ -1012,11 +1012,11 @@ class SFBulk2Type:
                 records,
                 column_delimiter=_delimiter_char.get(
                     column_delimiter,
-                    ColumnDelimiter.COMMA
+                    ColumnDelimiter.PIPE
                     ),
                 line_ending=_line_ending_char.get(
                     line_ending,
-                    LineEnding.LF
+                    LineEnding.CRLF
                     )
                 ),
             batch_size=batch_size,
@@ -1031,8 +1031,8 @@ class SFBulk2Type:
             csv_file: Optional[str] = None,
             records: Optional[List[Dict[str, str]]] = None,
             batch_size: Optional[int] = None,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> List[Dict[str, int]]:
         """update records"""
@@ -1043,11 +1043,11 @@ class SFBulk2Type:
                 records,
                 column_delimiter=_delimiter_char.get(
                     column_delimiter,
-                    ColumnDelimiter.COMMA
+                    ColumnDelimiter.PIPE
                     ),
                 line_ending=_line_ending_char.get(
                     line_ending,
-                    LineEnding.LF
+                    LineEnding.CRLF
                     )
                 ),
             batch_size=batch_size,
@@ -1061,8 +1061,8 @@ class SFBulk2Type:
             csv_file: Optional[str] = None,
             records: Optional[List[Dict[str, str]]] = None,
             batch_size: Optional[int] = None,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> List[Dict[str, int]]:
         """hard delete records"""
@@ -1073,11 +1073,11 @@ class SFBulk2Type:
                 records,
                 column_delimiter=_delimiter_char.get(
                     column_delimiter,
-                    ColumnDelimiter.COMMA
+                    ColumnDelimiter.PIPE
                     ),
                 line_ending=_line_ending_char.get(
                     line_ending,
-                    LineEnding.LF
+                    LineEnding.CRLF
                     )
                 ),
             batch_size=batch_size,
@@ -1090,8 +1090,8 @@ class SFBulk2Type:
             self,
             query: str,
             max_records: int = DEFAULT_QUERY_PAGE_SIZE,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> Generator[Union[str, int], None, None]:
         """bulk 2.0 query
@@ -1133,8 +1133,8 @@ class SFBulk2Type:
             self,
             query: str,
             max_records: int = DEFAULT_QUERY_PAGE_SIZE,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> Generator[str, None, None]:
         """bulk 2.0 query_all
@@ -1177,8 +1177,8 @@ class SFBulk2Type:
             query: str,
             path: str,
             max_records: int = DEFAULT_QUERY_PAGE_SIZE,
-            column_delimiter: ColumnDelimiter = ColumnDelimiter.COMMA,
-            line_ending: LineEnding = LineEnding.LF,
+            column_delimiter: ColumnDelimiter = ColumnDelimiter.PIPE,
+            line_ending: LineEnding = LineEnding.CRLF,
             wait: int = 5,
             ) -> List[QueryResult]:
         """bulk 2.0 query stream to file, avoiding high memory usage
