@@ -31,7 +31,10 @@ setup(
        'typing-extensions',
        'zeep',
        'pyjwt[crypto]',
-       'more-itertools'
+       'more-itertools',
+       'retrying',
+       'logdecorator',
+       'smart_open[s3]',
        ],
     tests_require=[
         'pytest',
