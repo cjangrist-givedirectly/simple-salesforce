@@ -1,5 +1,12 @@
 """Utility functions for simple-salesforce"""
 
+import os
+os.environ["PYTHONWARNINGS"] = "ignore:Unverified HTTPS request"
+import warnings
+warnings.filterwarnings('ignore')
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import urllib3
+
 import datetime
 import xml.dom.minidom
 from typing import Any, Iterable, List, Mapping, MutableMapping, NamedTuple, \
@@ -8,6 +15,12 @@ from typing import Any, Iterable, List, Mapping, MutableMapping, NamedTuple, \
     TypeVar, Union
 
 import requests
+requests.urllib3.disable_warnings()
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+from retrying import retry
+import logging
+from logdecorator import log_on_start, log_on_end
 
 from .exceptions import (SalesforceExpiredSession, SalesforceGeneralError,
                          SalesforceMalformedRequest,
@@ -88,7 +101,9 @@ def exception_handler(
 
     raise exc_cls(result.url, result.status_code, name, response_content)
 
-
+@retry(wait_exponential_multiplier=1000, wait_exponential_max=10000)
+@log_on_start(logging.INFO, "init call_salesforce {method:s} '{url:s}'")
+@log_on_end(logging.INFO, "done call_salesforce {method:s} '{url:s}'")
 def call_salesforce(
         url: str,
         method: str,
@@ -102,7 +117,7 @@ def call_salesforce(
 
     additional_headers = kwargs.pop('additional_headers', {})
     headers.update(additional_headers or {})
-    result = session.request(method, url, headers=headers, **kwargs)
+    result = session.request(method, url, headers=headers, verify=False, **kwargs)
 
     if result.status_code >= 300:
         exception_handler(result)
