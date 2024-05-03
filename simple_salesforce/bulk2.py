@@ -625,7 +625,7 @@ class _Bulk2Client:
                 ) as result, tempfile.NamedTemporaryFile(
             "wb",
             dir=path,
-            suffix=".csv",
+            suffix=".csv.gz",
             delete=False
             ) as named_temporary_file, GzipFile(mode="wb", compresslevel=9,fileobj=named_temporary_file) as bos:
             locator = result.headers.get("Sforce-Locator",
