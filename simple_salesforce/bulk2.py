@@ -31,6 +31,7 @@ from .exceptions import (
     SalesforceOperationError,
     )
 from .util import call_salesforce
+from gzip import GzipFile
 
 
 # pylint: disable=missing-class-docstring,invalid-name,too-many-arguments,
@@ -626,7 +627,7 @@ class _Bulk2Client:
             dir=path,
             suffix=".csv",
             delete=False
-            ) as bos:
+            ) as named_temporary_file, GzipFile(mode="wb", compresslevel=9,fileobj=named_temporary_file) as bos:
             locator = result.headers.get("Sforce-Locator",
                                          ""
                                          )
@@ -736,7 +737,7 @@ class _Bulk2Client:
                     )
                 ) as result, open(file,
                                   "wb"
-                                  ) as bos:
+                                  ) as named_temporary_file, GzipFile(mode="wb", compresslevel=9,fileobj=named_temporary_file) as bos:
             for chunk in result.iter_content(chunk_size=chunk_size):
                 bos.write(self.filter_null_bytes(chunk))
 
